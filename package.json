@@ -1,0 +1,10 @@
+{
+  "name": "bartahub24",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node api/og.js"
+  },
+  "dependencies": {
+    "firebase": "^10.8.0"
+  }
+}

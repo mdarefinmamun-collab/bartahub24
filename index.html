@@ -1,0 +1,1572 @@
+
+<!DOCTYPE html>
+<html lang="bn" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>বার্তাহাব ২৪ | সব খবর সবার আগে</title>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/plugin/relativeTime.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/locale/bn.js"></script>
+    <script>
+    dayjs.extend(window.dayjs_plugin_relativeTime);
+    dayjs.locale('bn'); // বাংলা ভাষা সেট
+    </script>
+    <!-- FontAwesome & Fonts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- ১. ভেরিয়েবল --- */
+        :root {
+            --primary: #C8102E;
+            --dark: #1a1a1a;
+            --text-body: #333333;
+            --text-muted: #666666;
+            --bg-body: #f4f4f4;
+            --bg-card: #ffffff;
+            --border: #e0e0e0;
+        }
+
+        [data-theme="dark"] {
+            --primary: #ff5252;
+            --dark: #ffffff;
+            --text-body: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --bg-body: #121212;
+            --bg-card: #1e1e1e;
+            --border: #333333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Noto Serif Bengali', sans-serif; transition: background 0.3s, color 0.3s; }
+        body { background: var(--bg-body); color: var(--text-body); line-height: 1.6; }
+        a { text-decoration: none; color: inherit; transition: 0.2s; }
+        a:hover { color: var(--primary); }
+        img { max-width: 100%; height: auto; display: block; }
+        .container { width: 94%; max-width: 1240px; margin: 0 auto; position: relative; }
+
+        /* --- ২. হেডার (নতুন ডিজাইন - ব্ল্যাক বার ছাড়া) --- */
+        .brand-header { background: var(--bg-card); padding: 15px 0; border-bottom: 1px solid var(--border); }
+        .brand-flex { display: flex; justify-content: space-between; align-items: center; }
+        
+        .header-left { display: flex; flex-direction: column; }
+        .logo img { height: 50px; }
+        .date-display { font-size: 13px; color: var(--text-muted); margin-top: 5px; font-weight: 500; }
+
+        .header-right { display: flex; align-items: center; gap: 15px; }
+        .header-tools button { background: none; border: 1px solid var(--border); width: 35px; height: 35px; border-radius: 50%; color: var(--text-body); cursor: pointer; transition: 0.3s; }
+        .header-tools button:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* বিজ্ঞাপন স্লট */
+        .header-ad { width: 728px; height: 90px; background: #eee; display: flex; align-items: center; justify-content: center; color: #999; border-radius: 4px; display: none; }
+        @media(min-width: 992px) { .header-ad { display: flex; } .header-right { gap: 20px; } }
+
+        /* সার্চ ড্রপডাউন */
+        .search-dropdown { display: none; background: var(--bg-card); padding: 15px; border-bottom: 1px solid var(--border); position: absolute; width: 100%; top: 100%; left: 0; z-index: 999; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .search-dropdown.active { display: block; animation: slideDown 0.3s; }
+        .search-box { display: flex; max-width: 600px; margin: 0 auto; }
+        .search-box input { flex: 1; padding: 10px; border: 1px solid var(--border); outline: none; background: var(--bg-body); color: var(--text-body); }
+        .search-box button { padding: 10px 20px; background: var(--primary); color: white; border: none; cursor: pointer; }
+        @keyframes slideDown { from {opacity:0; transform:translateY(-10px);} to {opacity:1; transform:translateY(0);} }
+
+        /* --- ৩. নেভিগেশন --- */
+        nav { background: var(--primary); position: sticky; top: 0; z-index: 1000; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .nav-container { display: flex; align-items: center; justify-content: space-between; }
+        .menu-toggle { display: none; color: white; font-size: 24px; cursor: pointer; padding: 10px; }
+        .nav-menu { display: flex; list-style: none; overflow-x: auto; }
+        .nav-menu::-webkit-scrollbar { display: none; }
+        .nav-menu li a { display: block; color: #fff; padding: 12px 18px; font-weight: 600; border-bottom: 3px solid transparent; white-space: nowrap; font-size: 15px; }
+        .nav-menu li a:hover, .nav-menu li.active a { background: rgba(0,0,0,0.1); border-color: #fff; }
+
+        /* --- ৪. লেআউট ও ডিজাইন --- */
+        .hero-section { margin-top: 25px; display: grid; grid-template-columns: 2fr 1fr; gap: 20px; }
+        .lead-news { position: relative; border-radius: 8px; overflow: hidden; height: 380px; background: #000; cursor: pointer; }
+        .lead-news img { width: 100%; height: 100%; object-fit: cover; opacity: 0.8; transition: 0.4s; }
+        .lead-news:hover img { opacity: 0.6; transform: scale(1.02); }
+        .lead-content { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px; background: linear-gradient(transparent, rgba(0,0,0,0.9)); pointer-events: none; }
+        .lead-content h1 { color: #fff; font-size: 28px; font-weight: 700; line-height: 1.3; }
+        
+        .sub-lead-grid { display: flex; flex-direction: column; gap: 15px; height: 380px; }
+        .sub-lead-item { flex: 1; display: flex; gap: 10px; background: var(--bg-card); padding: 10px; border-radius: 8px; overflow: hidden; cursor: pointer; border: 1px solid var(--border); }
+        .sub-lead-item img { width: 110px; height: 100%; object-fit: cover; border-radius: 4px; }
+        .sub-lead-item h3 { font-size: 15px; line-height: 1.4; font-weight: 600; overflow: hidden; }
+
+        .main-layout { display: grid; grid-template-columns: 70% 28%; gap: 2%; margin-top: 30px; margin-bottom: 50px; }
+        .news-list-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+        
+        .modern-card { background: var(--bg-card); border-radius: 8px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.05); transition: 0.3s; border: 1px solid var(--border); display: flex; flex-direction: column; }
+        .modern-card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
+        .modern-card img { width: 100%; height: 160px; object-fit: cover; }
+        .card-body { padding: 15px; flex: 1; display: flex; flex-direction: column; }
+        .card-body h3 { font-size: 17px; margin-bottom: 10px; font-weight: 700; line-height: 1.4; flex: 1; }
+
+        /* সাইডবার ট্যাব ও লিস্ট (NaN ফিক্স সহ) */
+        .sidebar-widget { background: var(--bg-card); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; margin-bottom: 30px; }
+        .tab-header { display: flex; border-bottom: 1px solid var(--border); }
+        .tab-btn { flex: 1; padding: 12px; background: var(--bg-body); border: none; cursor: pointer; font-weight: 600; color: var(--text-muted); font-size: 16px; }
+        .tab-btn.active { background: var(--bg-card); border-bottom: 3px solid var(--primary); color: var(--primary); }
+        .tab-content { padding: 0; display: none; } /* প্যাডিং রিমুভ করা হয়েছে ক্লিন লুকের জন্য */
+        .tab-content.active { display: block; }
+        
+        .mini-news { display: flex; gap: 15px; padding: 15px; border-bottom: 1px solid var(--border); align-items: center; cursor: pointer; transition: 0.2s; }
+        .mini-news:hover { background: var(--bg-body); }
+        .mini-news:last-child { border: none; }
+        .mini-news img { width: 80px; height: 55px; object-fit: cover; border-radius: 4px; }
+        .mini-news h4 { font-size: 15px; font-weight: 500; line-height: 1.3; margin: 0; }
+        .count-badge { font-size: 20px; font-weight: bold; color: #ccc; font-style: italic; min-width: 25px; }
+
+        /* সিঙ্গেল নিউজ */
+        .single-news-header h1 { font-size: 28px; font-weight: 700; margin: 15px 0; color: var(--dark); line-height: 1.3; }
+        .news-body { font-size: 18px; line-height: 1.8; color: var(--text-body); text-align: justify; }
+        .news-body img { width: 100%; border-radius: 8px; margin: 20px 0; }
+
+        /* স্কেলিটন লোডার */
+        .skeleton { background: #e0e0e0; border-radius: 4px; animation: shimmer 1.5s infinite linear; background: linear-gradient(to right, #eff1f3 4%, #e2e2e2 25%, #eff1f3 36%); background-size: 1000px 100%; }
+        @keyframes shimmer { 0% { background-position: -1000px 0; } 100% { background-position: 1000px 0; } }
+        .sk-card { height: 250px; width: 100%; margin-bottom: 20px; }
+
+        /* ফুটার */
+        footer { background: #1a1a1a; color: #fff; padding: 50px 0 20px; margin-top: 60px; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px; border-bottom: 1px solid #333; padding-bottom: 30px; margin-bottom: 20px; }
+
+        /* রেস্পনসিভ */
+        @media (max-width: 768px) {
+            .brand-flex { flex-direction: column; align-items: flex-start; gap: 15px; }
+            .header-right { width: 100%; justify-content: space-between; }
+            .hero-section, .main-layout { grid-template-columns: 1fr; }
+            .sub-lead-grid { height: auto; }
+            .lead-news { height: 240px; }
+            .lead-content h1 { font-size: 20px; }
+            .header-ad { display: none; }
+            
+            .menu-toggle { display: block; }
+            .nav-menu { display: none; flex-direction: column; width: 100%; background: var(--dark); position: absolute; top: 100%; left: 0; padding: 10px 0; }
+            .nav-menu.show { display: flex; }
+        }
+        /* --- মিসিং কোড ১: কমেন্ট সেকশন ও শেয়ার বাটন স্টাইল --- */
+.comment-section-wrapper { margin-top: 50px; background: #fff; border-top: 1px solid #e0e0e0; padding-top: 30px; }
+.comment-form-box { background: #f8f9fa; padding: 20px; border-radius: 8px; border: 1px solid #e0e0e0; margin-bottom: 20px; }
+.comment-title { font-size: 20px; font-weight: 700; margin-bottom: 15px; border-left: 4px solid var(--primary); padding-left: 10px; }
+.form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; font-size: 16px; margin-bottom: 10px; outline: none; }
+.btn-submit { background: var(--dark); color: #fff; border: none; padding: 10px 20px; font-size: 16px; border-radius: 4px; cursor: pointer; }
+.comment-item { display: flex; gap: 15px; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+.share-box { background:#f9f9f9; padding:15px; border-radius:5px; margin-top:30px; display:flex; gap:10px; }
+.share-btn { padding:8px 15px; border:none; border-radius:4px; color:white; cursor:pointer; font-size:14px; display:flex; align-items:center; gap:5px; }
+
+/* --- মিসিং কোড ২: নিউজ বডি ফিক্স (Quill Editor) --- */
+.news-body ul { list-style: disc !important; padding-left: 40px !important; margin: 15px 0; }
+.news-body ol { list-style: decimal !important; padding-left: 40px !important; margin: 15px 0; }
+.news-body blockquote { border-left: 5px solid var(--primary); background: #f4f4f4; padding: 10px 20px; margin: 20px 0; font-style: italic; }
+.news-body b, .news-body strong { font-weight: bold; }
+    /* সোশ্যাল আইকন স্টাইল */
+.social-icon {
+    width: 32px; height: 32px; border-radius: 50%; 
+    display: inline-flex; align-items: center; justify-content: center; 
+    color: white; font-size: 14px; text-decoration: none;
+}
+.si-fb { background: #1877F2; }
+.si-yt { background: #FF0000; }
+.si-x { background: #000; }
+.header-socials { display: none; } /* মোবাইলে লুকানো থাকবে */
+
+@media(min-width: 768px) {
+    .header-socials { display: flex !important; } /* ডেস্কটপে দেখাবে */
+}
+/* --- সোশ্যাল আইকন স্টাইল (Code 2 থেকে নেওয়া) --- */
+.social-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.social-icon { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 14px; transition: transform 0.2s; text-decoration: none; }
+.social-icon:hover { transform: scale(1.1); color: #fff; }
+
+/* ব্র্যান্ড কালার */
+.si-fb { background-color: #1877F2; }
+.si-group { background-color: #0084FF; }
+.si-x { background-color: #000000; }
+.si-tiktok { background-color: #000000; }
+.si-wa { background-color: #25D366; }
+.si-pin { background-color: #E60023; }
+.si-yt { background-color: #FF0000; }
+.si-in { background-color: #0077B5; }
+.si-insta { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+.si-google { background-color: #4285F4; }
+
+/* ডার্ক মোড ফিক্স */
+[data-theme="dark"] .si-x, [data-theme="dark"] .si-tiktok { background-color: #333; }
+
+/* হেডারে পজিশনিং */
+.header-right { flex-direction: column; align-items: flex-end; gap: 5px; }
+/* --- বিজ্ঞাপন রেস্পনসিভ স্টাইল --- */
+.header-ad {
+    display: none !important; /* ডিফল্টভাবে (মোবাইলে) লুকানো থাকবে */
+}
+
+/* ল্যাপটপ বা বড় স্ক্রিনে বিজ্ঞাপন এবং আইকন দুটোই দেখাবে */
+@media (min-width: 992px) {
+    .header-ad {
+        display: flex !important;
+        max-width: 600px; /* বিজ্ঞাপনের জায়গার সীমাবদ্ধতা */
+        height: 90px;
+        background: #f4f4f4;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+    
+    /* লেআউট ব্যালেন্স করা */
+    .brand-flex {
+        justify-content: space-between;
+    }
+}
+/* --- নতুন হেডার স্টাইল (স্ক্রিনশট অনুযায়ী) --- */
+.brand-header {
+    background: #fff;
+    padding: 15px 0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.header-top-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; /* নিচে এলাইনমেন্ট যাতে লোগো ও তারিখ সামঞ্জস্যপূর্ণ হয় */
+    margin-bottom: 20px; /* বিজ্ঞাপনের সাথে দূরত্ব */
+}
+
+/* লোগো ও ট্যাগলাইন */
+.header-left {
+    display: flex;
+    flex-direction: column;
+}
+.logo img {
+    height: 60px; /* লোগোর সাইজ */
+    width: auto;
+}
+.brand-tagline {
+    color: #D32F2F; /* লাল রঙ */
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 5px;
+    letter-spacing: 0.5px;
+}
+
+/* ডান পাশের গ্রুপ */
+.header-right-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* সব ডান দিকে চাপানো */
+    gap: 5px;
+}
+
+.icon-tools-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* সোশ্যাল বাটন স্টাইল */
+.social-icons {
+    display: flex;
+    gap: 8px;
+}
+.social-btn {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+.sb-fb { background-color: #1877F2; }
+.sb-yt { background-color: #FF0000; }
+.sb-google { background-color: #4285F4; }
+
+/* টুল বাটন (Search/Theme) */
+.tool-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #333;
+    margin-left: 5px;
+}
+
+/* তারিখ */
+.date-display {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin-top: 5px;
+}
+
+/* বিজ্ঞাপন এরিয়া */
+.header-full-ad {
+    width: 100%;
+    min-height: 100px; /* বিজ্ঞাপনের উচ্চতা */
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    overflow: hidden;
+}
+.header-full-ad img {
+    max-width: 100%;
+    height: auto;
+}
+.ad-placeholder {
+    color: #999;
+    font-size: 14px;
+}
+
+/* রেস্পনসিভ ফিক্স (মোবাইলের জন্য) */
+@media (max-width: 768px) {
+    .header-top-wrapper {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+    .header-right-group {
+        align-items: center;
+        margin-top: 15px;
+    }
+    .brand-tagline {
+        font-size: 14px;
+    }
+}
+/* --- ১. হেডারে position: relative যোগ করা হয়েছে --- */
+.brand-header {
+    background: #fff;
+    padding: 15px 0;
+    border-bottom: 1px solid #e0e0e0;
+    position: relative; /* এই লাইনটিই সার্চ বক্সকে হেডারের ভেতরে ধরে রাখবে */
+    z-index: 1001; /* হেডারের লেয়ার উপরে রাখা হলো */
+}
+
+/* --- ২. সার্চ ড্রপডাউন স্টাইল আপডেট (Z-Index ও পজিশন ফিক্স) --- */
+.search-dropdown {
+    display: none;
+    background: var(--bg-card);
+    padding: 20px;
+    border-top: 2px solid var(--primary); /* উপরে একটা কালার বর্ডার */
+    border-bottom: 1px solid var(--border);
+    position: absolute;
+    width: 100%;
+    top: 100%; /* হেডারের ঠিক নিচেই শুরু হবে */
+    left: 0;
+    z-index: 2000; /* মেনু এবং নিউজের উপরে ভাসবে */
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15); /* সুন্দর শ্যাডো */
+}
+
+/* অ্যানিমেশন স্মুথ করার জন্য */
+.search-dropdown.active {
+    display: block;
+    animation: slideDown 0.3s ease-in-out;
+}
+/* --- মোবাইল ভিউ: নিউজ গ্রিড ২ কলাম --- */
+@media (max-width: 768px) {
+    /* লিস্ট গ্রিডকে ২ ভাগে ভাগ করা */
+    .news-list-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr) !important; /* জোর করে ২ কলাম করা হলো */
+        gap: 10px; /* মাঝখানের ফাঁকা জায়গা কমানো */
+    }
+
+    /* কার্ডের সাইজ এডজাস্টমেন্ট (যাতে ২ কলামে ভেঙে না যায়) */
+    .modern-card img {
+        height: 100px; /* ছবির উচ্চতা কমানো */
+    }
+
+    .card-body {
+        padding: 8px; /* ভেতরের জায়গা কমানো */
+    }
+
+    .card-body h3 {
+        font-size: 13px; /* শিরোনামের ফন্ট ছোট করা */
+        line-height: 1.3;
+        margin-bottom: 5px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3; /* ৩ লাইনের বেশি হলে ডট দেখাবে */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    /* ক্যাটাগরি ও সময়ের ফন্ট সাইজ */
+    .card-body div {
+        font-size: 10px !important;
+        flex-wrap: wrap;
+    }
+}
+/* --- মোবাইল হেডার ফিক্স: পাশাপাশি লেআউট --- */
+@media (max-width: 768px) {
+    /* ১. পুরো হেডারকে এক লাইনে (Row) নিয়ে আসা */
+    .header-top-wrapper {
+        flex-direction: row !important; /* পাশাপাশি */
+        align-items: center !important;
+        justify-content: space-between !important;
+        text-align: left !important;
+        margin-bottom: 10px; /* নিচের গ্যাপ কমানো হয়েছে */
+    }
+
+    /* ২. বাম পাশ (লোগো) */
+    .header-left {
+        align-items: flex-start;
+    }
+    .logo img {
+        height: 45px; /* লোগো একটু ছোট করা হয়েছে মোবাইলের জন্য */
+    }
+    .brand-tagline {
+        display: none; /* মোবাইলে জায়গা বাঁচাতে ট্যাগলাইন লুকানো হলো */
+    }
+
+    /* ৩. ডান পাশ (টুলস ও ডেট) */
+    .header-right-group {
+        margin-top: 0 !important; /* উপরের গ্যাপ রিমুভ */
+        align-items: flex-end !important; /* সব ডান দিকে চাপানো */
+    }
+
+    /* ৪. সোশ্যাল আইকন লুকানো (আপনার রিকোয়ারমেন্ট অনুযায়ী) */
+    .social-icons {
+        display: none !important;
+    }
+
+    /* ৫. সার্চ ও থিম বাটন এডজাস্টমেন্ট */
+    .action-tools {
+        display: flex;
+        gap: 10px;
+    }
+    .tool-btn {
+        font-size: 18px; /* বাটন সাইজ ঠিক রাখা */
+        margin-left: 0;
+    }
+
+    /* ৬. তারিখের সাইজ ছোট করা */
+    .date-display {
+        font-size: 11px !important;
+        margin-top: 2px;
+        text-align: right;
+    }
+}
+/* --- হেডার কালার ফিক্স (ডার্ক মোড সাপোর্টেড) --- */
+.brand-header {
+    background: var(--bg-card); /* আগে #fff ছিল, এখন ভেরিয়েবল */
+    border-bottom: 1px solid var(--border); /* বর্ডারও থিম অনুযায়ী বদলাবে */
+    padding: 15px 0;
+    position: relative; /* সার্চ বক্সের জন্য */
+    z-index: 1001;
+    transition: background 0.3s, border-color 0.3s;
+}
+
+/* তারিখের রঙ ফিক্স */
+.date-display {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-body); /* আগে #333 ছিল, এখন ডার্ক মোডে সাদা হবে */
+    margin-top: 5px;
+}
+
+/* বাটন/আইকনের রঙ ফিক্স */
+.tool-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: var(--text-body); /* আইকনগুলোও ডার্ক মোডে সাদা হবে */
+    margin-left: 5px;
+}
+
+/* ট্যাগলাইনের রঙ ফিক্স (লাল রঙ ঠিক আছে, তবে চাইলে বদলাতে পারেন) */
+.brand-tagline {
+    color: var(--primary); /* প্রাইমারি কালার ব্যবহার করা ভালো */
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 5px;
+    letter-spacing: 0.5px;
+}
+/* ফুটার সোশ্যাল আইকন কালার */
+.si-fb { background-color: #1877F2; }
+.si-group { background-color: #0084FF; }
+.si-x { background-color: #000000; }
+.si-tiktok { background-color: #000000; }
+.si-wa { background-color: #25D366; }
+.si-pin { background-color: #E60023; }
+.si-yt { background-color: #FF0000; }
+.si-in { background-color: #0077B5; }
+.si-insta { background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%); }
+.si-google { background-color: #4285F4; }
+
+/* আইকন সাইজ ও ডিজাইন */
+.social-icon { 
+    width: 32px; height: 32px; border-radius: 50%; 
+    display: none; /* ডিফল্টভাবে লুকানো থাকবে, JS দিয়ে চালু হবে */
+    align-items: center; justify-content: center; 
+    color: #fff; font-size: 14px; 
+    transition: transform 0.2s; text-decoration: none; margin: 2px;
+}
+.social-icon:hover { transform: scale(1.1); color: #fff; }
+/* --- মিসিং কোড ১: কমেন্ট সেকশন ও শেয়ার বাটন স্টাইল (Dark Mode Fixed) --- */
+
+/* ১. মেইন র‍্যাপার: ব্যাকগ্রাউন্ড ভেরিয়েবল এবং বর্ডার কালার ফিক্স */
+.comment-section-wrapper { 
+    margin-top: 50px; 
+    background: var(--bg-card); /* #fff এর বদলে ভেরিয়েবল */
+    border-top: 1px solid var(--border); /* #e0e0e0 এর বদলে ভেরিয়েবল */
+    padding-top: 30px; 
+}
+
+/* ২. ফর্ম বক্স: ব্যাকগ্রাউন্ড বডি কালার দেওয়া হলো যাতে কার্ডের ওপর ভেসে থাকে */
+.comment-form-box { 
+    background: var(--bg-body); /* #f8f9fa এর বদলে ভেরিয়েবল */
+    padding: 20px; 
+    border-radius: 8px; 
+    border: 1px solid var(--border); 
+    margin-bottom: 20px; 
+}
+
+/* ৩. টাইটেল কালার ফিক্স */
+.comment-title { 
+    font-size: 20px; 
+    font-weight: 700; 
+    margin-bottom: 15px; 
+    border-left: 4px solid var(--primary); 
+    padding-left: 10px; 
+    color: var(--text-body); /* টেক্সট কালার ফিক্স */
+}
+
+/* ৪. ইনপুট বক্স: ডার্ক মোডে সাদা ব্যাকগ্রাউন্ড সরানোর জন্য */
+.form-control { 
+    width: 100%; 
+    padding: 10px; 
+    border: 1px solid var(--border); 
+    border-radius: 4px; 
+    font-size: 16px; 
+    margin-bottom: 10px; 
+    outline: none; 
+    background: var(--bg-card); /* ইনপুট ফিল্ডের ব্যাকগ্রাউন্ড */
+    color: var(--text-body);    /* ইনপুট টেক্সট কালার */
+}
+
+/* ৫. সাবমিট বাটন */
+.btn-submit { 
+    background: var(--primary); /* ডার্ক বাটন না দিয়ে প্রাইমারি কালার ভালো দেখাবে */
+    color: #fff; 
+    border: none; 
+    padding: 10px 20px; 
+    font-size: 16px; 
+    border-radius: 4px; 
+    cursor: pointer; 
+}
+
+/* ৬. কমেন্ট আইটেম বর্ডার ফিক্স */
+.comment-item { 
+    display: flex; 
+    gap: 15px; 
+    border-bottom: 1px solid var(--border); /* বর্ডার ভেরিয়েবল */
+    padding-bottom: 15px; 
+    margin-bottom: 15px; 
+    color: var(--text-body); /* টেক্সট কালার */
+}
+
+/* ৭. শেয়ার বক্স ফিক্স */
+.share-box { 
+    background: var(--bg-body); /* #f9f9f9 এর বদলে ভেরিয়েবল */
+    padding: 15px; 
+    border-radius: 5px; 
+    margin-top: 30px; 
+    display: flex; 
+    gap: 10px; 
+    border: 1px solid var(--border); /* বর্ডার যোগ করা হলো সুন্দর দেখানোর জন্য */
+}
+
+.share-btn { 
+    padding: 8px 15px; 
+    border: none; 
+    border-radius: 4px; 
+    color: white; 
+    cursor: pointer; 
+    font-size: 14px; 
+    display: flex; 
+    align-items: center; 
+    gap: 5px; 
+}
+/* --- মিসিং কোড ২: নিউজ বডি ফিক্স (Quill Editor & Blockquote Fix) --- */
+
+.news-body ul { 
+    list-style: disc !important; 
+    padding-left: 40px !important; 
+    margin: 15px 0; 
+    color: var(--text-body); 
+}
+
+.news-body ol { 
+    list-style: decimal !important; 
+    padding-left: 40px !important; 
+    margin: 15px 0; 
+    color: var(--text-body); 
+}
+
+/* Blockquote বা কোট এরিয়া ফিক্স */
+.news-body blockquote {
+    border-left: 5px solid var(--primary);
+    background: var(--bg-body); /* আগে #f4f4f4 ছিল, এখন ভেরিয়েবল */
+    color: var(--text-body);    /* লেখার রং যাতে ব্যাকগ্রাউন্ডের সাথে মানানসই হয় */
+    padding: 15px 20px;
+    margin: 20px 0;
+    font-style: italic;
+    border-radius: 0 5px 5px 0; /* ডান পাশে একটু রাউন্ড শেপ */
+}
+
+/* বোল্ড টেক্সট কালার ফিক্স */
+.news-body b, .news-body strong {
+    font-weight: bold;
+    color: var(--text-body);
+}
+
+/* CLS Fix for Images */
+.modern-card img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9; /* নির্দিষ্ট রেশিও */
+    object-fit: cover;
+    background-color: #eee; /* ছবি লোড হওয়ার আগে প্লেসহোল্ডার কালার */
+}
+.lead-news img { aspect-ratio: 16 / 9; }
+.sub-lead-item img { aspect-ratio: 4 / 3; width: 110px; }
+
+</style>
+</head>
+<body>
+
+<header class="brand-header">
+        <div class="container">
+            <!-- উপরের অংশ: লোগো এবং আইকন -->
+            <div class="header-top-wrapper">
+                
+                <!-- বাম পাশ: লোগো ও ট্যাগলাইন -->
+                <div class="header-left">
+                    <div class="logo">
+                        <a href="?"><img src="https://i.imgur.com/Ltig2C1.png" alt="বার্তাহাব ২৪"></a>
+                    </div>
+                    <div class="brand-tagline">সত্যের সন্ধানে সারাক্ষণ</div>
+                </div>
+
+                <!-- ডান পাশ: আইকন, টুলস ও তারিখ -->
+                <div class="header-right-group">
+                    <div class="icon-tools-row">
+                       <!-- সোশ্যাল আইকন -->
+<div class="social-icons">
+    <!-- ক্লাসগুলো খেয়াল করুন: sb-fb, sb-yt, sb-google -->
+    <a href="#" class="social-btn sb-fb"><i class="fab fa-facebook-f"></i></a>
+    <a href="#" class="social-btn sb-yt"><i class="fab fa-youtube"></i></a>
+    <a href="#" class="social-btn sb-google"><i class="fas fa-newspaper"></i></a>
+</div>
+
+                        <!-- থিম ও সার্চ -->
+                        <div class="action-tools">
+                            <button onclick="toggleTheme()" class="tool-btn"><i class="fas fa-moon"></i></button>
+                            <button onclick="toggleSearch()" class="tool-btn"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+
+                    <!-- তারিখ (আইকনের নিচে) -->
+                    <div class="date-display" id="current-date">লোড হচ্ছে...</div>
+                </div>
+            </div>
+
+            <!-- নিচের অংশ: ফুল-উইডথ বিজ্ঞাপন -->
+            <div class="header-full-ad" id="header-ad-slot">
+                <span class="ad-placeholder">বিজ্ঞাপন</span>
+            </div>
+        </div>
+
+        <!-- সার্চ ড্রপডাউন (হিডেন) -->
+        <div class="search-dropdown" id="search-dropdown">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="কি খুঁজতে চান? লিখুন...">
+                <button onclick="searchNews()">অনুসন্ধান</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ২. নেভিগেশন মেনু -->
+    <nav>
+        <div class="container nav-container">
+            <div class="menu-toggle" onclick="toggleMenu()">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-menu" id="nav-list">
+                <li class="active"><a href="#" onclick="goHome(this)">প্রচ্ছদ</a></li>
+                <li><a href="#" onclick="filterNews('জাতীয়', this)">জাতীয়</a></li>
+                <li><a href="#" onclick="filterNews('রাজনীতি', this)">রাজনীতি</a></li>
+                <li><a href="#" onclick="filterNews('খেলা', this)">খেলা</a></li>
+                <li><a href="#" onclick="filterNews('বিনোদন', this)">বিনোদন</a></li>
+                <li><a href="#" onclick="filterNews('আন্তর্জাতিক', this)">আন্তর্জাতিক</a></li>
+                <li><a href="#" onclick="filterNews('তথ্যপ্রযুক্তি', this)">তথ্যপ্রযুক্তি</a></li>
+                <li><a href="#" onclick="openArchive(this)" style="background:#333; color:#ffc107;">আর্কাইভ</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- ৩. ব্রেকিং নিউজ -->
+    <div class="container">
+        <div style="background:var(--bg-card); border-bottom:1px solid var(--border); display:flex; align-items:center;">
+            <div style="background:var(--primary); color:#fff; padding:6px 15px; font-weight:bold; white-space:nowrap; font-size:14px;">শিরোনাম</div>
+            <div style="flex:1; padding:6px; overflow:hidden;">
+                <marquee id="breaking-ticker" onmouseover="this.stop();" onmouseout="this.start();">লোড হচ্ছে...</marquee>
+            </div>
+        </div>
+    </div>
+
+    <!-- ৪. মেইন কন্টেন্ট -->
+    <main class="container">
+        
+        <!-- হিরো সেকশন -->
+        <div id="hero-section" class="hero-section">
+            <div class="skeleton sk-card"></div>
+            <div class="skeleton sk-card"></div>
+        </div>
+
+        <div class="main-layout">
+            <!-- বাম পাশ: নিউজ ফিড -->
+            <div class="content-col">
+                <div id="section-title" style="font-size: 22px; font-weight: 700; border-left: 5px solid var(--primary); padding-left: 10px; margin-bottom: 20px; color:var(--dark);">সর্বশেষ সংবাদ</div>
+                
+                <div id="news-container" class="news-list-grid"></div>
+                
+                <button id="load-more-btn" onclick="loadMore()" style="display:block; margin: 30px auto; padding: 10px 30px; background: var(--dark); color: #fff; border: none; border-radius: 25px; cursor: pointer; display:none;">আরও খবর দেখুন <i class="fas fa-arrow-down"></i></button>
+                <!-- স্ট্যাটিক পেইজ ভিউ (About Us / Advertise) -->
+<div id="static-page-view" style="display:none; padding:30px; background:var(--bg-card); border-radius:8px; margin-bottom: 30px; border: 1px solid var(--border);">
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border); padding-bottom:15px; margin-bottom:20px;">
+        <h2 id="static-page-title" style="margin:0; font-size: 24px;">শিরোনাম</h2>
+        <button onclick="goHome()" style="background:var(--bg-body); border:none; padding:5px 15px; cursor:pointer; border-radius:4px;"><i class="fas fa-times"></i> বন্ধ করুন</button>
+    </div>
+    <div id="static-page-body" class="news-body" style="min-height: 200px;">
+        <!-- কন্টেন্ট এখানে লোড হবে -->
+    </div>
+</div>
+                <!-- আর্কাইভ -->
+                <div id="archive-view" style="display:none; padding:20px; background:var(--bg-card); border-radius:8px;">
+                    <h2 style="margin-bottom:15px;">সংবাদ আর্কাইভ</h2>
+                    <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:20px;">
+                        <input type="date" id="archive-date" onchange="searchArchiveByDate()" style="padding:10px; border:1px solid var(--border);">
+                        <div style="display:flex;">
+                            <input type="text" id="archive-text" placeholder="শিরোনাম..." style="padding:10px; border:1px solid var(--border);">
+                            <button onclick="searchArchiveByText()" style="padding:10px; background:var(--primary); color:white; border:none;"><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                    <div id="archive-results"></div>
+                </div>
+            </div>
+
+            <!-- ডান পাশ: সাইডবার -->
+            <aside class="sidebar-col">
+                <!-- ট্যাব সিস্টেম -->
+                <div class="sidebar-widget">
+                    <div class="tab-header">
+                        <button class="tab-btn active" onclick="switchTab('latest')">সর্বশেষ</button>
+                        <button class="tab-btn" onclick="switchTab('popular')">জনপ্রিয়</button>
+                    </div>
+                    <div id="tab-latest" class="tab-content active"></div>
+                    <div id="tab-popular" class="tab-content"></div>
+                </div>
+
+                <div class="sidebar-widget" style="padding: 10px; text-align: center; margin-top: 20px;">
+                    <div id="sidebar-ad-slot">
+                        <span style="color:#999; font-size:12px; border:1px dashed #ccc; padding:20px; display:block;">বিজ্ঞাপন</span>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+<footer>
+        <div class="container">
+            <div class="footer-grid">
+               <div>
+                    <!-- লোগো লিংক ফিক্স -->
+                    <a href="?"><img src="https://i.imgur.com/Ltig2C1.png" style="height:50px; filter: brightness(0) invert(1); margin-bottom: 20px;"></a>
+                    <p>সত্য ও নিষ্ঠার সাথে সংবাদ পরিবেশনে আমরা অঙ্গীকারবদ্ধ।</p>
+                    
+                    <!-- সোশ্যাল আইকন (ফুটার) -->
+                    <div class="socials" style="margin-top: 20px; display: flex; gap: 8px; flex-wrap: wrap;">
+                        <a href="#" class="social-icon si-fb"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon si-group"><i class="fas fa-users"></i></a>
+                        <a href="#" class="social-icon si-x"><i class="fab fa-x-twitter"></i></a>
+                        <a href="#" class="social-icon si-tiktok"><i class="fab fa-tiktok"></i></a>
+                        <a href="#" class="social-icon si-wa"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" class="social-icon si-pin"><i class="fab fa-pinterest-p"></i></a>
+                        <a href="#" class="social-icon si-yt"><i class="fab fa-youtube"></i></a>
+                        <a href="#" class="social-icon si-in"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-icon si-insta"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-icon si-google"><i class="fas fa-newspaper"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3>গুরুত্বপূর্ণ লিংক</h3>
+                    <ul style="list-style:none; margin-top:15px;">
+                        <li><a href="#" onclick="goHome()">প্রচ্ছদ</a></li>
+                        <li><a href="javascript:void(0)" onclick="openStaticPage('about_us', 'আমাদের সম্পর্কে')">আমাদের সম্পর্কে</a></li>
+                        <li><a href="javascript:void(0)" onclick="openStaticPage('advertise', 'বিজ্ঞাপন দিন')">বিজ্ঞাপন দিন</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>যোগাযোগ</h3>
+                    <p style="margin-top:15px;">কারওয়ান বাজার, ঢাকা-১২১৫</p>
+                    <p>news@bartahub24.com</p>
+                </div>
+            </div>
+            <div style="text-align:center; color:#777; font-size:14px;">&copy;২০২৬ বার্তাহাব ২৪ | সর্বস্বত্ব সংরক্ষিত | ডিজাইন ও ডেভেলপমেন্ট</div>
+        </div>
+    </footer>
+
+    <!-- Firebase Scripts -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, getDoc, doc, query, orderBy, limit, where, startAfter, updateDoc, increment, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+        import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyB83SaZZk_6oVIDniQ7f97hPrfFas99Njo",
+          authDomain: "bartahub-24.firebaseapp.com",
+          projectId: "bartahub-24",
+          storageBucket: "bartahub-24.firebasestorage.app",
+          messagingSenderId: "1089574659299",
+          appId: "1:1089574659299:web:20b08324eaf342193691d6"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+const provider = new GoogleAuthProvider();
+let currentUser = null;
+
+// পেজ লোড হলে ইউজার চেক
+onAuthStateChanged(auth, (user) => {
+    currentUser = user;
+    updateCommentUI();
+});
+        const db = getFirestore(app);
+
+        let lastDoc = null;
+        let currentCat = 'all';
+
+        // --- উইন্ডো ফাংশন (Global Scope Fix for switchTab) ---
+        window.toggleMenu = () => document.getElementById('nav-list').classList.toggle('show');
+        window.toggleSearch = () => {
+            const box = document.getElementById('search-dropdown');
+            box.classList.toggle('active');
+            if(box.classList.contains('active')) document.getElementById('search-input').focus();
+        };
+        // Theme Toggle Update
+window.toggleTheme = () => {
+    const html = document.documentElement;
+    const isDark = html.getAttribute('data-theme') === 'dark';
+    const newTheme = isDark ? 'light' : 'dark';
+    html.setAttribute('data-theme', newTheme);
+    localStorage.setItem('bartahub_theme', newTheme); // সেভ করে রাখা
+};
+
+// window.onload এর শুরুতে এটি দিন:
+const savedTheme = localStorage.getItem('bartahub_theme') || 'light';
+document.documentElement.setAttribute('data-theme', savedTheme);
+        
+        // ** FIX: switchTab কে গ্লোবাল স্কোপে আনা হয়েছে **
+        window.switchTab = (tab) => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            if(tab === 'latest') {
+                document.querySelectorAll('.tab-btn')[0].classList.add('active');
+                document.getElementById('tab-latest').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab-btn')[1].classList.add('active');
+                document.getElementById('tab-popular').classList.add('active');
+            }
+        };
+
+        window.onload = () => {
+            const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('current-date').innerText = new Date().toLocaleDateString('bn-BD', dateOptions);
+            
+            const urlParams = new URLSearchParams(window.location.search);
+if(urlParams.get('article')) {
+    loadSingleNewsBySlug(urlParams.get('article')); // নতুন ফাংশন
+} else if (urlParams.get('category')) {
+    filterNews(urlParams.get('category'));
+} else {
+    fetchHomeNews();
+}
+
+            loadSidebarTabs();
+            loadTicker();
+            fetchAds();
+            updateSocialLinks();
+        };
+
+    async function fetchHomeNews() {
+    document.getElementById('hero-section').style.display = 'grid';
+    const container = document.getElementById('news-container');
+    
+    // Caching Logic Start
+    const cachedData = sessionStorage.getItem('homeNewsCache');
+    const cacheTime = sessionStorage.getItem('homeNewsCacheTime');
+    const now = Date.now();
+    
+    if (cachedData && cacheTime && (now - cacheTime < 300000)) {
+        const parsedDocs = JSON.parse(cachedData);
+        const mockDocs = parsedDocs.map(d => ({ id: d.id, data: () => d.data }));
+        lastDoc = mockDocs[mockDocs.length - 1]; 
+        renderHero(mockDocs.slice(0, 3));
+        renderList(mockDocs.slice(3));
+        return; 
+    }
+    // Caching Logic End
+
+    // Fix: শুধু আজকের নয়, বরং ডাটাবেসের সর্বশেষ ১২টি খবর লোড হবে
+    const q = query(collection(db, "news"), orderBy("timestamp", "desc"), limit(12));
+
+    try {
+        const snapshot = await getDocs(q);
+        if(snapshot.empty) {
+            document.getElementById('hero-section').style.display = 'none';
+            container.innerHTML = "<p style='padding:20px; text-align:center;'>কোনো সংবাদ পাওয়া যায়নি।</p>";
+            return;
+        }
+        
+        lastDoc = snapshot.docs[snapshot.docs.length - 1];
+        
+        // Save to Cache
+        const cacheDocs = snapshot.docs.map(doc => ({ id: doc.id, data: doc.data() }));
+        sessionStorage.setItem('homeNewsCache', JSON.stringify(cacheDocs));
+        sessionStorage.setItem('homeNewsCacheTime', Date.now());
+
+        renderHero(snapshot.docs.slice(0, 3));
+        renderList(snapshot.docs.slice(3));
+    } catch(e) { 
+        console.error(e); 
+        container.innerHTML = "<p style='color:red;'>ডাটা লোড করতে সমস্যা হচ্ছে।</p>";
+    }
+}
+
+        function renderHero(docs) {
+    const heroDiv = document.getElementById('hero-section');
+    if(docs.length === 0) return;
+    const lead = docs[0].data();
+    let html = `
+        <div class="lead-news" onclick="location.href='?article=${lead.slug || docs[0].id}'">
+            <img src="${lead.imageUrl}" alt="${lead.title}">
+            <div class="lead-content">
+                <h1 style="text-shadow: 2px 2px 4px #000;">${lead.title}</h1>
+            </div>
+        </div>
+    `;
+    if(docs.length > 1) {
+        html += `<div class="sub-lead-grid">`;
+        for(let i=1; i<docs.length; i++) {
+            const sub = docs[i].data();
+            html += `<div class="sub-lead-item" onclick="location.href='?article=${sub.slug || docs[i].id}'">
+                <img src="${sub.imageUrl}">
+                <div style="flex:1; padding:5px;"><h3>${sub.title}</h3></div>
+            </div>`;
+        }
+        html += `</div>`;
+    }
+    heroDiv.innerHTML = html;
+}
+
+        function renderList(docs, append = false) {
+            const container = document.getElementById('news-container');
+            let html = '';
+            docs.forEach(doc => {
+                const d = doc.data();
+                const time = d.timestamp ? timeAgo(d.timestamp.seconds * 1000) : '';
+                html += `<div class="modern-card">
+                        <a  href="?article=${d.slug || doc.id}"><img src="${d.imageUrl}" loading="lazy"></a>
+                        <div class="card-body">
+                            <h3><a href="?article=${d.slug || doc.id}">${d.title}</a></h3>
+                            <div style="font-size:13px; color:var(--text-muted); border-top:1px solid #eee; padding-top:8px; display:flex; justify-content:space-between;">
+                                <span>${d.category}</span><span>${time}</span>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+            append ? container.innerHTML += html : container.innerHTML = html;
+        }
+
+        // --- সাইডবার লজিক (NaN ফিক্স সহ) ---
+        async function loadSidebarTabs() {
+            // Latest
+            const qL = query(collection(db, "news"), orderBy("timestamp", "desc"), limit(5));
+            const sL = await getDocs(qL);
+            let hL = '';
+            // ** FIX: docs.forEach ব্যবহার করায় এখন index ঠিকভাবে কাজ করবে **
+            sL.docs.forEach((doc, idx) => {
+                hL += mkMini(doc.data(), doc.id, idx+1);
+            });
+            document.getElementById('tab-latest').innerHTML = hL;
+
+            // Popular
+            try {
+                const qP = query(collection(db, "news"), orderBy("views", "desc"), limit(5));
+                const sP = await getDocs(qP);
+                let hP = '';
+                sP.docs.forEach((doc, idx) => {
+                    hP += mkMini(doc.data(), doc.id, idx+1);
+                });
+                document.getElementById('tab-popular').innerHTML = hP;
+            } catch(e) { document.getElementById('tab-popular').innerHTML = '<small style="padding:10px; display:block;">Index missing</small>'; }
+        }
+
+        function mkMini(d, id, i) {
+    const bnNum = i.toLocaleString('bn-BD'); 
+    return `<div class="mini-news" onclick="location.href='?article=${d.slug || id}'">
+        <div class="count-badge">${bnNum}</div>
+        <div style="flex:1"><h4>${d.title}</h4></div>
+        <img src="${d.imageUrl}">
+    </div>`;
+}
+
+    window.filterNews = async (cat, el) => {
+    
+    currentCat = cat;
+    document.getElementById('hero-section').style.display = 'none';
+    document.getElementById('section-title').style.display = 'block'; // এই লাইনটি যোগ করুন
+    document.getElementById('section-title').innerText = cat === 'all' ? 'সর্বশেষ সংবাদ' : cat;
+    document.getElementById('archive-view').style.display = 'none';
+            
+            if(el) {
+                document.querySelectorAll('.nav-menu li').forEach(li => li.classList.remove('active'));
+                el.parentElement.classList.add('active');
+                document.getElementById('nav-list').classList.remove('show');
+            }
+            const q = query(collection(db, "news"), where("category", "==", cat), orderBy("timestamp", "desc"), limit(10));
+            const snap = await getDocs(q);
+            lastDoc = snap.docs[snap.docs.length-1];
+            renderList(snap.docs);
+        }
+
+        window.loadMore = async () => {
+            const btn = document.getElementById('load-more-btn');
+            if(!lastDoc) { btn.style.display = 'none'; return; }
+            btn.innerText = 'লোড হচ্ছে...';
+            try {
+                let q = currentCat === 'all' ? 
+                    query(collection(db, "news"), orderBy("timestamp", "desc"), startAfter(lastDoc), limit(8)) :
+                    query(collection(db, "news"), where("category", "==", currentCat), orderBy("timestamp", "desc"), startAfter(lastDoc), limit(8));
+                
+                const snap = await getDocs(q);
+                if(snap.empty) { btn.style.display = 'none'; }
+                else {
+                    lastDoc = snap.docs[snap.docs.length-1];
+                    renderList(snap.docs, true);
+                    btn.innerHTML = 'আরও খবর দেখুন <i class="fas fa-arrow-down"></i>';
+                }
+            } catch(e) { console.error(e); }
+        }
+
+       async function loadSingleNews(id) {
+            document.getElementById('hero-section').style.display = 'none';
+            document.getElementById('load-more-btn').style.display = 'none';
+            const container = document.getElementById('news-container');
+            container.classList.remove('news-list-grid');
+            container.innerHTML = '<div class="skeleton sk-card"></div>';
+
+            try {
+                // ভিউ কাউন্ট আপডেট
+                await updateDoc(doc(db, "news", id), { views: increment(1) });
+                
+                const snap = await getDoc(doc(db, "news", id));
+                if(snap.exists()) {
+                    const d = snap.data();
+                    const date = d.timestamp ? new Date(d.timestamp.seconds * 1000).toLocaleDateString('bn-BD', {dateStyle:'full'}) : '';
+                    document.title = d.title;
+                    
+// Open Graph Tags Update
+document.querySelector('meta[property="og:title"]')?.remove();
+document.querySelector('meta[property="og:image"]')?.remove();
+document.querySelector('meta[property="og:description"]')?.remove();
+
+const head = document.getElementsByTagName('head')[0];
+head.insertAdjacentHTML('beforeend', `
+    <meta property="og:title" content="${d.title}">
+    <meta property="og:image" content="${d.imageUrl}">
+    <meta property="og:description" content="${d.description.replace(/(<([^>]+)>)/gi, "").substring(0, 150)}...">
+`);
+
+                    // HTML জেনারেট
+                    container.innerHTML = `
+                        <div class="single-news-header">
+                            <span style="color:var(--primary); font-weight:bold;">${d.category}</span>
+                            <h1>${d.title}</h1>
+                            <div style="margin-bottom:20px; color:var(--text-muted); font-size:14px; border-bottom:1px solid #eee; padding-bottom:10px;">
+                                প্রকাশ: ${date} | ডেস্ক রিপোর্ট
+                            </div>
+                        </div>
+                        ${d.imageUrl ? `<img src="${d.imageUrl}" style="width:100%; border-radius:8px; margin-bottom:20px;">` : ''}
+                        
+                        <div class="news-body">${d.description}</div>
+
+                       <!-- নতুন শেয়ার অপশন (Web Share API) -->
+<div class="share-box">
+    <button onclick="shareNative('${d.title}', '${id}')" class="share-btn" style="background:var(--primary); width:100%; justify-content:center; font-size:16px;">
+        <i class="fas fa-share-alt"></i> খবরটি শেয়ার করুন
+    </button>
+</div>
+
+                        <div class="comment-section-wrapper">
+    <div class="comment-title">মতামত জানান</div>
+    <div id="comment-auth-ui" class="comment-form-box">
+        <!-- JS দিয়ে এখানে লগইন বা কমেন্ট বক্স আসবে -->
+    </div>
+    <div class="comment-title" style="margin-top:30px;">পাঠকের মন্তব্য</div>
+    <div id="comments-display-area">লোড হচ্ছে...</div>
+</div>
+                    `;
+                    fetchRelatedNews(d.category, id);
+                    // কমেন্ট লোড করার ফাংশন কল
+                    fetchComments(id);
+                }
+            } catch(e) { console.error(e); }
+        }
+
+       // বিজ্ঞাপন লোড করার ফাংশন
+        async function fetchAds() {
+            try {
+                const q = query(collection(db, "ads"), orderBy("timestamp", "desc"));
+                const snap = await getDocs(q);
+                
+                const hSlot = document.getElementById('header-ad-slot');
+                const sSlot = document.getElementById('sidebar-ad-slot');
+                
+                // কন্টেন্ট ক্লিয়ার করা
+                if(hSlot) hSlot.innerHTML = ''; 
+                if(sSlot) sSlot.innerHTML = '';
+
+                snap.forEach(doc => {
+                    const ad = doc.data();
+                    const html = `<a href="${ad.linkUrl||'#'}" target="_blank"><img src="${ad.imageUrl}" style="max-width:100%; height:auto; display:block; margin:0 auto;"></a>`;
+                    
+                   if(ad.position === 'header' && hSlot) {
+    hSlot.innerHTML = html;
+    hSlot.style.background = 'transparent'; // ব্যাকগ্রাউন্ড রিমুভ
+    hSlot.style.minHeight = 'auto'; // হাইট অটো
+} 
+                    else if(ad.position === 'sidebar' && sSlot) {
+                        sSlot.innerHTML += `<div style="margin-bottom:15px;">${html}</div>`;
+                    }
+                });
+            } catch (e) {
+                console.error("Ads error:", e);
+            }
+        }
+
+        async function loadTicker() {
+     const q = query(collection(db, "news"), orderBy("timestamp", "desc"), limit(5));
+     const snap = await getDocs(q);
+     let txt = '';
+     snap.forEach(doc => txt += `<span style="margin-right:30px; cursor:pointer" onclick="location.href='?article=${doc.data().slug || doc.id}'">🔴 ${doc.data().title}</span>`);
+     document.getElementById('breaking-ticker').innerHTML = txt;
+}
+
+        window.searchNews = async () => {
+            const term = document.getElementById('search-input').value.trim();
+            if(!term) return;
+            document.getElementById('search-dropdown').classList.remove('active');
+            document.getElementById('hero-section').style.display = 'none';
+            document.getElementById('section-title').innerText = `অনুসন্ধান: ${term}`;
+            const container = document.getElementById('news-container');
+            container.innerHTML = 'খুঁজছে...';
+            const q = query(collection(db, "news"), where("title", ">=", term), where("title", "<=", term + '\uf8ff'));
+            const snap = await getDocs(q);
+            if(snap.empty) container.innerHTML = 'কোনো খবর পাওয়া যায়নি।';
+            else { renderList(snap.docs); document.getElementById('load-more-btn').style.display = 'none'; }
+        }
+
+        window.openArchive = (el) => {
+            document.getElementById('hero-section').style.display = 'none';
+            document.getElementById('news-container').innerHTML = '';
+            document.getElementById('archive-view').style.display = 'block';
+            document.getElementById('load-more-btn').style.display = 'none';
+            if(el) {
+                document.querySelectorAll('.nav-menu li').forEach(li => li.classList.remove('active'));
+                el.parentElement.classList.add('active');
+            }
+        }
+        
+        window.searchArchiveByDate = async () => {
+            const dateVal = document.getElementById('archive-date').value;
+            const start = new Date(dateVal); start.setHours(0,0,0);
+            const end = new Date(dateVal); end.setHours(23,59,59);
+            const q = query(collection(db, "news"), where("timestamp", ">=", start), where("timestamp", "<=", end));
+            renderArchiveResults(await getDocs(q));
+        }
+
+        function renderArchiveResults(snap) {
+            const div = document.getElementById('archive-results');
+            if(snap.empty) { div.innerHTML = 'কিছু পাওয়া যায়নি'; return; }
+            let html = '<div class="news-list-grid">';
+            snap.forEach(doc => {
+                 html += `<div class="modern-card"><a href="?article=${doc.data().slug || doc.id}"><img src="${doc.data().imageUrl}"></a><div class="card-body"><h3>${doc.data().title}</h3></div></div>`;
+            });
+            div.innerHTML = html + '</div>';
+        }
+
+window.goHome = (el) => { 
+    // ১. স্ট্যাটিক পেইজ বন্ধ করা
+    document.getElementById('static-page-view').style.display = 'none';
+    
+    // ২. নিউজ ফিড ও হিরো সেকশন আবার চালু করা
+    document.getElementById('hero-section').style.display = 'grid';
+    document.getElementById('news-container').style.display = 'grid'; // বা 'block' (আপনার CSS অনুযায়ী)
+    document.getElementById('section-title').style.display = 'block';
+    document.getElementById('load-more-btn').style.display = 'block';
+    document.getElementById('archive-view').style.display = 'none';
+
+    // ৩. মেনু হাইলাইট ঠিক করা
+    if(el) {
+        document.querySelectorAll('.nav-menu li').forEach(li => li.classList.remove('active'));
+        el.parentElement.classList.add('active');
+        document.getElementById('nav-list').classList.remove('show'); // মোবাইল মেনু বন্ধ
+    }
+    
+    // ৪. পেজের উপরে নেওয়া
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    window.location.href = window.location.pathname; 
+}
+
+async function updateSocialLinks() {
+    try {
+        const docRef = doc(db, "settings", "socials");
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const data = docSnap.data();
+            
+            // ডিবাগ: কনসোলে দেখুন ডাটাবেসে আসলে কী নাম আছে
+            console.log("Database Keys:", Object.keys(data)); 
+
+            const setLinks = (className, url) => {
+                const elements = document.querySelectorAll(`.${className}`);
+                elements.forEach(el => {
+                    if (url && url.trim() !== "") {
+                        el.href = url;
+                        el.target = "_blank"; 
+                        el.style.display = 'inline-flex'; // লিংক পেলে শো করবে
+                    } else {
+                        el.style.display = 'none'; // লিংক না পেলে হাইড করবে
+                    }
+                });
+            };
+
+            // ১. ফেসবুক
+            setLinks('sb-fb', data.fb || data.facebook); 
+            setLinks('si-fb', data.fb || data.facebook); 
+
+            // ২. ইউটিউব
+            setLinks('sb-yt', data.yt || data.youtube);
+            setLinks('si-yt', data.yt || data.youtube);
+
+            // ৩. গুগল নিউজ (সব সম্ভাব্য নাম দেওয়া হলো)
+            const gLink = data.google || data.googleNews || data.gnews || data.google_news;
+            setLinks('sb-google', gLink);
+            setLinks('si-google', gLink);
+
+            // ৪. অন্যান্য (ফুটার)
+            setLinks('si-x', data.x || data.twitter);           
+            setLinks('si-group', data.group || data.facebookGroup);   
+            setLinks('si-tiktok', data.tiktok); 
+            setLinks('si-wa', data.wa || data.whatsapp);         
+            setLinks('si-pin', data.pin || data.pinterest);       
+            setLinks('si-in', data.in || data.linkedin);         
+            setLinks('si-insta', data.insta || data.instagram);   
+        }
+    } catch (e) {
+        console.error("Social links error:", e);
+    }
+}
+        // ১. কমেন্ট লোড করা
+        async function fetchComments(newsId) {
+            const displayArea = document.getElementById('comments-display-area');
+            try {
+                const q = query(collection(db, "comments"), where("newsId", "==", newsId), orderBy("timestamp", "desc"), limit(20));
+                const snapshot = await getDocs(q);
+                if (snapshot.empty) { displayArea.innerHTML = '<p style="color:#777;">কোনো মন্তব্য নেই। আপনিই প্রথম মন্তব্য করুন!</p>'; return; }
+                
+                let html = '';
+                snapshot.forEach(doc => {
+                    const c = doc.data();
+                    const time = c.timestamp ? new Date(c.timestamp.seconds * 1000).toLocaleString('bn-BD') : '';
+                    // escapeHtml ব্যবহার করা হলো সিকিউরিটির জন্য
+                    const cleanName = c.name.replace(/</g, "&lt;");
+                    const cleanText = c.text.replace(/</g, "&lt;");
+                    
+                    html += `
+                        <div class="comment-item">
+                            <div style="font-size:30px; color:#ddd;"><i class="fas fa-user-circle"></i></div>
+                            <div>
+                                <h5 style="margin:0; font-weight:bold;">${cleanName}</h5>
+                                <small style="color:#888;">${time}</small>
+                                <p style="margin-top:5px;">${cleanText}</p>
+                            </div>
+                        </div>`;
+                });
+                displayArea.innerHTML = html;
+            } catch (error) { 
+                console.error(error); 
+                displayArea.innerHTML = '<p style="color:red;">মন্তব্য লোড করা যায়নি (Index Missing)।</p>'; 
+            }
+        }
+
+        // ২. মন্তব্য সাবমিট করা
+        window.submitComment = async (newsId) => {
+            const name = document.getElementById('com-name').value.trim();
+            const text = document.getElementById('com-text').value.trim();
+            if (!name || !text) return alert("নাম এবং মন্তব্য লিখুন!");
+            
+            try {
+                await addDoc(collection(db, "comments"), {
+                    newsId: newsId,
+                    name: name,
+                    text: text,
+                    timestamp: serverTimestamp()
+                });
+                document.getElementById('com-name').value = '';
+                document.getElementById('com-text').value = '';
+                alert("ধন্যবাদ! মন্তব্য গ্রহণ করা হয়েছে।");
+                fetchComments(newsId); // রিফ্রেশ লিস্ট
+            } catch (e) { console.error(e); alert("সমস্যা হয়েছে!"); }
+        }
+
+// --- স্ট্যাটিক পেইজ (About Us / Advertise) লোড করার ফাংশন ---
+window.openStaticPage = async (pageId, title) => {
+    // ১. ইউজার ইন্টারফেস (UI) ক্লিন করা
+    document.getElementById('hero-section').style.display = 'none'; // হিরো সেকশন লুকানো
+    document.getElementById('news-container').style.display = 'none'; // নিউজ লিস্ট লুকানো
+    document.getElementById('archive-view').style.display = 'none'; // আর্কাইভ লুকানো
+    document.getElementById('load-more-btn').style.display = 'none'; // লোড মোর বাটন লুকানো
+    document.getElementById('section-title').style.display = 'none'; // সেকশন টাইটেল লুকানো
+
+    // ২. স্ট্যাটিক পেইজ ভিউ চালু করা
+    const pageView = document.getElementById('static-page-view');
+    pageView.style.display = 'block';
+    
+    // ৩. টাইটেল সেট করা
+    document.getElementById('static-page-title').innerText = title;
+    
+    // ৪. লোডিং দেখানো
+    const body = document.getElementById('static-page-body');
+    body.innerHTML = '<div class="skeleton sk-card"></div><p>তথ্য লোড হচ্ছে...</p>';
+
+    // ৫. ফায়ারবেস থেকে ডাটা আনা
+    try {
+        const docRef = doc(db, "pages", pageId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            body.innerHTML = docSnap.data().content; // ডাটাবেসের কনটেন্ট বসানো
+        } else {
+            body.innerHTML = '<p style="color:red; padding:20px;">এই পেইজের জন্য কোনো তথ্য অ্যাডমিন প্যানেল থেকে সেট করা হয়নি।</p>';
+        }
+    } catch (e) {
+        console.error("Page Load Error:", e);
+        body.innerHTML = '<p>তথ্য লোড করতে সমস্যা হয়েছে। ইন্টারনেট সংযোগ চেক করুন।</p>';
+    }
+    
+    // ৬. মোবাইল মেনু বন্ধ করা (যদি খোলা থাকে)
+    document.getElementById('nav-list').classList.remove('show');
+    
+    // ৭. পেজের একদম উপরে নিয়ে যাওয়া
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Timeago Helper Function
+function timeAgo(dateInput) {
+    return dayjs(dateInput).fromNow();
+}   
+
+window.shareNative = async (title, id) => {
+    const url = window.location.origin + window.location.pathname + '?id=' + id;
+    if (navigator.share) {
+        try {
+            await navigator.share({ title: title, url: url });
+        } catch (err) { console.log('Share canceled'); }
+    } else {
+        // ফালব্যাক: যদি ব্রাউজার সাপোর্ট না করে তবে লিংক কপি হবে
+        navigator.clipboard.writeText(url);
+        alert('লিংক কপি হয়েছে!');
+    }
+}
+
+async function fetchRelatedNews(category, currentId) {
+    const relatedWrapper = document.getElementById('related-news-wrapper'); 
+    
+    // সম্পর্কিত খবরের টাইটেল এবং গ্রিড আলাদাভাবে বসানো হলো
+    relatedWrapper.innerHTML = `
+        <div class="comment-title" style="margin-top:40px; margin-bottom:20px;">সম্পর্কিত খবর</div>
+        <div id="related-news-grid" class="news-list-grid"></div>
+    `;
+
+    try {
+        const q = query(collection(db, "news"), where("category", "==", category), orderBy("timestamp", "desc"), limit(4));
+        const snap = await getDocs(q);
+        let html = '';
+        snap.forEach(doc => {
+            if(doc.id !== currentId) { // কারেন্ট নিউজ বাদ দেওয়া হলো
+                const d = doc.data();
+                html += `<div class="modern-card" onclick="location.href='?article=${d.slug || doc.id}'" style="cursor:pointer;">
+                            <img src="${d.imageUrl}" style="height:120px;">
+                            <div class="card-body" style="padding:10px;">
+                                <h3 style="font-size:14px;">${d.title}</h3>
+                            </div>
+                        </div>`;
+            }
+        });
+        document.getElementById('related-news-grid').innerHTML = html || '<p style="color:#777;">কোনো সম্পর্কিত খবর নেই।</p>';
+    } catch(e) { 
+        console.error("Related News Error:", e); 
+    }
+}
+
+window.updateCommentUI = () => {
+    const box = document.getElementById('comment-auth-ui');
+    if(!box) return;
+    
+    // URL থেকে article এর ভ্যালু নেওয়া হচ্ছে
+    const currentArticleId = new URLSearchParams(window.location.search).get('article');
+    
+    if(currentUser) {
+        box.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <span style="font-weight:bold;"><i class="fas fa-user-circle"></i> ${currentUser.displayName}</span>
+                <button onclick="logoutComment()" style="background:none; border:none; color:red; cursor:pointer; text-decoration:underline;">লগআউট</button>
+            </div>
+            <textarea id="com-text" class="form-control" placeholder="আপনার মন্তব্য লিখুন..." rows="3"></textarea>
+            <button onclick="submitComment('${currentArticleId}')" class="btn-submit">মতামত প্রকাশ করুন</button>
+        `;
+    } else {
+        box.innerHTML = `
+            <p style="margin-bottom:15px; color:#666;">মন্তব্য করতে অনুগ্রহ করে গুগল অ্যাকাউন্ট দিয়ে লগইন করুন।</p>
+            <button onclick="loginToComment()" style="background:#4285F4; color:white; border:none; padding:10px 20px; border-radius:4px; cursor:pointer;"><i class="fab fa-google"></i> গুগল লগইন</button>
+        `;
+    }
+}
+
+window.loginToComment = () => signInWithPopup(auth, provider);
+window.logoutComment = () => signOut(auth);
+
+// submitComment আপডেট
+window.submitComment = async (newsId) => {
+    if(!currentUser) return alert("লগইন করুন!");
+    const text = document.getElementById('com-text').value.trim();
+    if (!text) return alert("মন্তব্য লিখুন!");
+    
+    try {
+        await addDoc(collection(db, "comments"), {
+            newsId: newsId,
+            name: currentUser.displayName,
+            email: currentUser.email,
+            text: text,
+            timestamp: serverTimestamp()
+        });
+        document.getElementById('com-text').value = '';
+        fetchComments(newsId);
+    } catch (e) { alert("সমস্যা হয়েছে!"); }
+}
+
+async function loadSingleNewsBySlug(slugOrId) {
+    document.getElementById('hero-section').style.display = 'none';
+    document.getElementById('load-more-btn').style.display = 'none';
+    document.getElementById('section-title').style.display = 'none'; // এই লাইনটি যোগ করুন
+    const container = document.getElementById('news-container');
+    container.classList.remove('news-list-grid');
+    container.innerHTML = '<div class="skeleton sk-card"></div>';
+
+    try {
+        let docSnap, newsId, d;
+        
+        // প্রথমে চেক করবে এটি Slug কিনা
+        const q = query(collection(db, "news"), where("slug", "==", slugOrId), limit(1));
+        const slugSnap = await getDocs(q);
+        
+        if (!slugSnap.empty) {
+            docSnap = slugSnap.docs[0];
+            newsId = docSnap.id;
+            d = docSnap.data();
+        } else {
+            // যদি Slug না পায়, তবে আইডি ধরে চেক করবে (পুরনো খবরের জন্য)
+            const fallbackRef = doc(db, "news", slugOrId);
+            const fallbackSnap = await getDoc(fallbackRef);
+            if(fallbackSnap.exists()) {
+                docSnap = fallbackSnap;
+                newsId = docSnap.id;
+                d = docSnap.data();
+            }
+        }
+
+        if (d) {
+            // Views আপডেট
+            await updateDoc(doc(db, "news", newsId), { views: increment(1) });
+            
+            const date = d.timestamp ? new Date(d.timestamp.seconds * 1000).toLocaleDateString('bn-BD', {dateStyle:'full'}) : '';
+            document.title = d.title;
+            
+            // OG Tags Update
+            document.querySelector('meta[property="og:title"]')?.remove();
+            document.querySelector('meta[property="og:image"]')?.remove();
+            document.querySelector('meta[property="og:description"]')?.remove();
+
+            const head = document.getElementsByTagName('head')[0];
+            const cleanDesc = d.description ? d.description.replace(/(<([^>]+)>)/gi, "").substring(0, 150) : "";
+            head.insertAdjacentHTML('beforeend', `
+                <meta property="og:title" content="${d.title}">
+                <meta property="og:image" content="${d.imageUrl}">
+                <meta property="og:description" content="${cleanDesc}...">
+            `);
+
+           // HTML জেনারেট (ফিক্সড লেআউট)
+            container.innerHTML = `
+                <div class="single-news-header">
+                    <span style="color:var(--primary); font-weight:bold;">${d.category}</span>
+                    <h1>${d.title}</h1>
+                    <div style="margin-bottom:20px; color:var(--text-muted); font-size:14px; border-bottom:1px solid #eee; padding-bottom:10px;">
+                        প্রকাশ: ${date} | ডেস্ক রিপোর্ট
+                    </div>
+                </div>
+                ${d.imageUrl ? `<img src="${d.imageUrl}" style="width:100%; border-radius:8px; margin-bottom:20px;">` : ''}
+                
+                <div class="news-body">${d.description}</div>
+
+                <!-- শেয়ার অপশন -->
+                <div class="share-box">
+                    <button onclick="shareNative('${d.title}', '${d.slug || newsId}')" class="share-btn" style="background:var(--primary); width:100%; justify-content:center; font-size:16px;">
+                        <i class="fas fa-share-alt"></i> খবরটি শেয়ার করুন
+                    </button>
+                </div>
+
+                <!-- সম্পর্কিত খবর এরিয়া (আলাদা করা হলো) -->
+                <div id="related-news-wrapper"></div>
+
+                <!-- কমেন্ট সেকশন -->
+                <div class="comment-section-wrapper">
+                    <div class="comment-title">মতামত জানান</div>
+                    <div id="comment-auth-ui" class="comment-form-box"></div>
+                    <div class="comment-title" style="margin-top:30px;">পাঠকের মন্তব্য</div>
+                    <div id="comments-display-area">লোড হচ্ছে...</div>
+                </div>
+            `;
+            
+            fetchRelatedNews(d.category, newsId);
+            fetchComments(newsId);
+            updateCommentUI(); // কমেন্ট বক্সের UI আপডেট করার জন্য
+        } else {
+            container.innerHTML = "<h3 style='padding:20px; text-align:center;'>খবরটি পাওয়া যায়নি বা মুছে ফেলা হয়েছে।</h3>";
+        }
+    } catch(e) { 
+        console.error("Single News Load Error:", e); 
+        container.innerHTML = "<p style='color:red;'>খবরটি লোড করতে সমস্যা হচ্ছে।</p>";
+    }
+}
+
+</script>
+</body>
+</html>
